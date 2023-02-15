@@ -24,7 +24,9 @@ def test_can_call_covid_per_country_endpoint():
     assert response.status_code == 200
 
 
-def test_fun(self, x):
-    #o = CountryListProvider()
-    #print(o)
-    pass
+def test_get_country_code():
+    """
+    tests symulates user input and checks output of the function
+    """
+    with mock.patch.object(builtins, "input", lambda _: "France"):
+        assert CountryListProvider.get_country_code(CountryListProvider) == "france"

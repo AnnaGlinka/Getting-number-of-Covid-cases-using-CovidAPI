@@ -9,7 +9,7 @@ class CountryListProvider:
     https://documenter.getpostman.com/view/10808728/SzS8rjbc#7934d316-f751-4914-9909-39f1901caeIb8
     """
 
-    def getCountryCode(self):
+    def get_country_code(self):
         __endpoint = "https://api.covid19api.com/countries"
         response = requests.get(__endpoint)
         #pprint.pprint(response.json())
