@@ -6,9 +6,11 @@ from APIprovider import CountryListProvider, CovidCasesGenerator
 
 
 country = CountryListProvider()
+country.show_countries_list()
 
 selected_country = country.get_country_code()
 print(f"Selected country: {selected_country.capitalize()}")
+
 
 case = CovidCasesGenerator()
 case.make_request(selected_country, "2020-04-01", "2020-05-01")

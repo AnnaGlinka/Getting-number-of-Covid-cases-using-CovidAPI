@@ -9,29 +9,33 @@ class CountryListProvider:
     https://documenter.getpostman.com/view/10808728/SzS8rjbc#7934d316-f751-4914-9909-39f1901caeIb8
     """
 
-    def get_country_code(self):
+    __country_dict = {}
+
+    def __init__(self):
         __endpoint = "https://api.covid19api.com/countries"
-        response = requests.get(__endpoint)
-        #pprint.pprint(response.json())
+        __response = requests.get(__endpoint)
+    
+    
+        for country in __response.json():
+            self.__country_dict.update({country['Country']: country['Slug']})
 
-        country_dict = {}
 
-        for country in response.json():
-            country_dict.update({country['Country']: country['Slug']})
-            print(country['Country'])
-
-        print("")
-
+    def show_countries_list(self):
+        for country in CountryListProvider.__country_dict:
+            print(country)
+       
+              
+    def get_country_code(self):
         while True:
             selected_country = input(
                 "Select the country from the list above: ")
-            if selected_country in country_dict:
+            if selected_country in CountryListProvider.__country_dict:
                 break
             print(
                 "This country is not in the list. Please select a different one"
             )
 
-        return country_dict[selected_country]
+        return CountryListProvider.__country_dict[selected_country]
 
 
 class CovidCasesGenerator:
