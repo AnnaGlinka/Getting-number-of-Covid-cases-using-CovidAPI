@@ -10,6 +10,7 @@ from APIprovider import CountryListProvider
 #pytest -v -s
 #pytest -v -s test_api.py::test_can_call_counties_endpoint
 #pytest -v -s test_api.py::test_can_call_covid_per_country_endpoint
+#pytest -v -s test_api.py::test_get_country_code
 
 
 def test_can_call_counties_endpoint():
@@ -28,5 +29,5 @@ def test_get_country_code():
     """
     tests symulates user input and checks output of the function
     """
-    with mock.patch.object(builtins, "input", lambda _: "France"):
-        assert CountryListProvider.get_country_code(CountryListProvider) == "france"
+    with mock.patch.object(builtins, "input", lambda _: "Brazil"):
+        assert CountryListProvider.get_country_code(CountryListProvider) == "brazil"

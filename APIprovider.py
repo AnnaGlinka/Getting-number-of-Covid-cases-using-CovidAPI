@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import pprint
 
+
 class CountryListProvider:
     """
     The class creates a list of countries with it's codes for which data regarding Covid19 
@@ -14,26 +15,28 @@ class CountryListProvider:
     def __init__(self):
         __endpoint = "https://api.covid19api.com/countries"
         __response = requests.get(__endpoint)
-    
-    
+
         for country in __response.json():
             self.__country_dict.update({country['Country']: country['Slug']})
-
 
     def show_countries_list(self):
         for country in CountryListProvider.__country_dict:
             print(country)
-       
-              
-    def get_country_code(self):
-        while True:
+
+    def get_country_code(self) -> str:
+        dict = self.__country_dict
+        i = 3
+        while i >= 0:
             selected_country = input(
                 "Select the country from the list above: ")
-            if selected_country in CountryListProvider.__country_dict:
+            if selected_country in dict:
                 break
             print(
-                "This country is not in the list. Please select a different one"
+                f"This country is not in the list. Please select a different one.\n {i} more chances left."
             )
+            i -= 1
+        if i < 0:
+            return None
 
         return CountryListProvider.__country_dict[selected_country]
 

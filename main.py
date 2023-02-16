@@ -8,8 +8,12 @@ from APIprovider import CountryListProvider, CovidCasesGenerator
 country = CountryListProvider()
 country.show_countries_list()
 
+
 selected_country = country.get_country_code()
-print(f"Selected country: {selected_country.capitalize()}")
+if selected_country:
+    print(f"Selected country: {selected_country.capitalize()}")
+else:
+    print("No correct value for country was selected.")
 
 
 case = CovidCasesGenerator()
