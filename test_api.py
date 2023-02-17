@@ -28,6 +28,14 @@ def test_can_call_covid_per_country_endpoint():
 def test_get_country_code():
     """
     tests symulates user input and checks output of the function
-    """
-    with mock.patch.object(builtins, "input", lambda _: "Brazil"):
+      with mock.patch.object(builtins, "input", lambda _: "Brazil "):
+        clp = CountryListProvider()
         assert CountryListProvider.get_country_code(CountryListProvider) == "brazil"
+
+    """
+    clp = CountryListProvider()
+    assert clp.get_country_code() ==
+    
+    
+
+

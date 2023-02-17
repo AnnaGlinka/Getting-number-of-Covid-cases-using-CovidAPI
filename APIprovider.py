@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import pprint
+from pydantic import ValidationError
 
 
 class CountryListProvider:
@@ -23,22 +24,15 @@ class CountryListProvider:
         for country in CountryListProvider.__country_dict:
             print(country)
 
-    def get_country_code(self) -> str:
-        dict = self.__country_dict
-        i = 3
-        while i >= 0:
-            selected_country = input(
-                "Select the country from the list above: ")
-            if selected_country in dict:
-                break
-            print(
-                f"This country is not in the list. Please select a different one.\n {i} more chances left."
-            )
-            i -= 1
-        if i < 0:
-            return None
-
-        return CountryListProvider.__country_dict[selected_country]
+    def validate_input(self, input: str) -> bool:
+        if input in self.__country_dict:
+            return True
+        return False
+    
+    def get_coutry_slug(self, country: str) -> str:
+        if self.validate_input(country):
+            return CountryListProvider.__country_dict[country]
+        raise ValidationError ("This country is not in the list.")
 
 
 class CovidCasesGenerator:
