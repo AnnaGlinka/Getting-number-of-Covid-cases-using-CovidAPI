@@ -1,4 +1,4 @@
-from APIprovider import CountryListProvider, CovidCasesGenerator
+from APIprovider import CountryListProvider, CovidCasesGenerator, APIError
 from pydantic import ValidationError
 
 # https://covid19api.com/
@@ -30,10 +30,10 @@ case = CovidCasesGenerator()
 
 try:
     covid_data_result = case.request_covid_data(country_slug, "2020-04-01", "2020-05-01")
-except ValueError as val_err:
-    print("dddd", val_err)
+except APIError as api_err:
+    print(api_err)
+else:
+    covid_data_result = case.request_covid_data(country_slug, "2020-04-01", "2020-05-01")
+    case.print_data_to_the_file(covid_data_result)
 
 
-
-covid_data_result = case.request_covid_data(country_slug, "2020-04-01", "2020-05-01")
-case.print_data_to_the_file(covid_data_result)

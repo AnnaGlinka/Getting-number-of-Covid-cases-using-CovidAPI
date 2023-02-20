@@ -4,6 +4,15 @@ import pprint
 from pydantic import ValidationError
 
 
+class APIError(Exception):
+    
+    def __init__(self, status):
+        self.status = status
+
+    def __str__(self):
+        return f"APIError: status={self.status}"
+
+
 class CountryListProvider:
     """
     The class creates a list of countries with it's codes for which data regarding Covid19 
@@ -55,30 +64,28 @@ class CovidCasesGenerator:
         }
 
         __endpoint = f"https://api.covid19api.com/country/{self.__country}"
-
-        #try:
         response = requests.get(__endpoint, params=__query_params)
+        if response.status_code != 200:
+            raise APIError(response.status_code)
+      
 
-        #raise ValidationError("This country is not in the list.")
+        __date = []
+        __confirmed_cases = []
+        __deaths = []
+        __recovered = []
+        for record in response.json():
+            __date.append(record['Date'][:10])
+            __confirmed_cases.append(record['Confirmed'])
+            __recovered.append(record['Recovered'])
+            __deaths.append(record['Deaths'])
 
-        if response.status_code in range(200, 299):
-            __date = []
-            __confirmed_cases = []
-            __deaths = []
-            __recovered = []
-            for record in response.json():
-                __date.append(record['Date'][:10])
-                __confirmed_cases.append(record['Confirmed'])
-                __recovered.append(record['Recovered'])
-                __deaths.append(record['Deaths'])
-
-            confirmed_death_recovered_data = {
-                'Date': __date,
-                'Confirmed': __confirmed_cases,
-                'Recovered': __recovered,
-                'Deaths': __deaths
-            }
-            return confirmed_death_recovered_data
+        confirmed_death_recovered_data = {
+            'Date': __date,
+            'Confirmed': __confirmed_cases,
+            'Recovered': __recovered,
+            'Deaths': __deaths
+        }
+        return confirmed_death_recovered_data
 
             
 
