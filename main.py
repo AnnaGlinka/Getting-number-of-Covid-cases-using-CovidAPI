@@ -15,16 +15,25 @@ while i >= 0:
     try:
         country_input = input("Select the country from the list above: ")
         country_slug = country_list_provider.get_coutry_slug(country_input)
+        print(f"Selected country: {country_slug.capitalize()}")
         break
     except:
         print(f"{i} more chances left.")
     
     i -= 1
 
-if country_slug:
-    print(f"Selected country: {country_slug.capitalize()}")
 else:
     print("No correct value for country was selected.")
 
+
 case = CovidCasesGenerator()
-case.make_request(country_slug, "2020-04-01", "2020-05-01")
+
+try:
+    covid_data_result = case.request_covid_data(country_slug, "2020-04-01", "2020-05-01")
+except ValueError as val_err:
+    print("dddd", val_err)
+
+
+
+covid_data_result = case.request_covid_data(country_slug, "2020-04-01", "2020-05-01")
+case.print_data_to_the_file(covid_data_result)

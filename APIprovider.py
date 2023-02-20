@@ -28,11 +28,11 @@ class CountryListProvider:
         if input in self.__country_dict:
             return True
         return False
-    
+
     def get_coutry_slug(self, country: str) -> str:
         if self.validate_input(country):
             return CountryListProvider.__country_dict[country]
-        raise ValidationError ("This country is not in the list.")
+        raise ValidationError("This country is not in the list.")
 
 
 class CovidCasesGenerator:
@@ -44,7 +44,7 @@ class CovidCasesGenerator:
     It saves the data in the scv file.
     """
 
-    def make_request(self, country, start_date=None, end_date=None):
+    def request_covid_data(self, country, start_date=None, end_date=None):
         self.__country = country
         self.__start_date = start_date
         self.__end_date = end_date
@@ -55,7 +55,11 @@ class CovidCasesGenerator:
         }
 
         __endpoint = f"https://api.covid19api.com/country/{self.__country}"
+
+        #try:
         response = requests.get(__endpoint, params=__query_params)
+
+        #raise ValidationError("This country is not in the list.")
 
         if response.status_code in range(200, 299):
             __date = []
@@ -68,21 +72,22 @@ class CovidCasesGenerator:
                 __recovered.append(record['Recovered'])
                 __deaths.append(record['Deaths'])
 
-            dict = {
+            confirmed_death_recovered_data = {
                 'Date': __date,
                 'Confirmed': __confirmed_cases,
                 'Recovered': __recovered,
                 'Deaths': __deaths
             }
-            df = pd.DataFrame(dict)
+            return confirmed_death_recovered_data
 
-            if df.empty:
-                print(
-                    f"There was no confirmed Covid19 cases in {self.__country.capitalize()} between {self.__start_date} and {self.__end_date}"
-                )
+            
 
-            else:
-                print(df)
-                df.to_csv(
-                    f"Covid19 cases in {(self.__country).capitalize()}.csv",
-                    index=False)
+    def print_data_to_the_file(self, data: dict):
+        df = pd.DataFrame(data)
+        if df.empty:
+            print(
+                f"There was no confirmed Covid19 cases in {self.__country.capitalize()} between {self.__start_date} and {self.__end_date}"
+            )
+        else:
+            print(df)
+            df.to_csv(f"Covid19 cases in {(self.__country).capitalize()}.csv", index=False)
