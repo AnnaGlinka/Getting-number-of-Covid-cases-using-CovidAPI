@@ -30,6 +30,14 @@ python-versions = ">=3.7"
 frozenlist = ">=1.1.0"
 
 [[package]]
+name = "apesmit-python2"
+version = "0.1"
+description = "simple Python module to create XML sitemaps"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "argon2-cffi"
 version = "21.3.0"
 description = "The secure Argon2 password hashing algorithm."
@@ -83,6 +91,18 @@ docs = ["furo", "sphinx", "myst-parser", "zope.interface", "sphinx-notfound-page
 tests = ["attrs", "zope.interface"]
 tests-no-zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
 tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
+
+[[package]]
+name = "beautifulsoup4"
+version = "4.4.1"
+description = "Screen-scraping library"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
 
 [[package]]
 name = "certifi"
@@ -190,12 +210,50 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-wtf"
+version = "1.1.1"
+description = "Form rendering, validation, and CSRF protection for Flask with WTForms."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Flask = "*"
+itsdangerous = "*"
+WTForms = "*"
+
+[package.extras]
+email = ["email-validator"]
+
+[[package]]
 name = "frozenlist"
 version = "1.3.3"
 description = "A list-like structure which implements collections.abc.MutableSequence"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "html5lib"
+version = "1.0b8"
+description = "HTML parser based on the WHATWG HTML specification"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
+name = "html5lib-truncation"
+version = "0.1.0"
+description = "Truncating HTML with html5lib filter"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+html5lib = "*"
 
 [[package]]
 name = "idna"
@@ -455,6 +513,20 @@ ujson = ">=3.0.0"
 test = ["coverage", "pytest-cov", "pytest", "pyflakes", "pycodestyle", "pylint"]
 
 [[package]]
+name = "python-slugify"
+version = "8.0.0"
+description = "A Python slugify application that also handles Unicode"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+text-unidecode = ">=1.3"
+
+[package.extras]
+unidecode = ["Unidecode (>=1.1.1)"]
+
+[[package]]
 name = "pytoolconfig"
 version = "1.2.5"
 description = "Python tool configuration"
@@ -480,6 +552,23 @@ description = "World timezone definitions, modern and historical"
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "redberry"
+version = "0.0.7.15"
+description = "Flask Blueprint for adding simple CMS functionality"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+apesmit-python2 = "0.1"
+beautifulsoup4 = "4.4.1"
+flask = ">=0.11.1"
+flask-wtf = ">=0.13.1"
+html5lib = "1.0b8"
+html5lib-truncation = "0.1.0"
+python-slugify = ">=1.2.1"
 
 [[package]]
 name = "replit"
@@ -573,6 +662,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "text-unidecode"
+version = "1.3"
+description = "The most basic Text::Unidecode port"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
@@ -640,6 +737,20 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "wtforms"
+version = "3.0.1"
+description = "Form validation and rendering for Python web development."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+MarkupSafe = "*"
+
+[package.extras]
+email = ["email-validator"]
+
+[[package]]
 name = "yapf"
 version = "0.32.0"
 description = "A formatter for Python code."
@@ -662,15 +773,17 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10.0,<3.11"
-content-hash = "85076d81c49ee0685d73011b17851e996b68328bb084a09c8d8976deea8d049c"
+content-hash = "a4d8de912f07d9d9b190d603705f898a036116480a56dcb1bad6b224e655dfd1"
 
 [metadata.files]
 aiohttp = []
 aiosignal = []
+apesmit-python2 = []
 argon2-cffi = []
 argon2-cffi-bindings = []
 async-timeout = []
 attrs = []
+beautifulsoup4 = []
 certifi = []
 cffi = []
 charset-normalizer = []
@@ -680,7 +793,10 @@ cryptography = []
 debugpy = []
 exceptiongroup = []
 flask = []
+flask-wtf = []
 frozenlist = []
+html5lib = []
+html5lib-truncation = []
 idna = []
 iniconfig = []
 iso8601 = []
@@ -704,13 +820,16 @@ pyseto = []
 pytest = []
 python-dateutil = []
 python-lsp-jsonrpc = []
+python-slugify = []
 pytoolconfig = []
 pytz = []
+redberry = []
 replit = []
 replit-python-lsp-server = []
 requests = []
 rope = []
 six = []
+text-unidecode = []
 toml = []
 tomli = []
 typing-extensions = []
@@ -718,5 +837,6 @@ ujson = []
 urllib3 = []
 werkzeug = []
 whatthepatch = []
+wtforms = []
 yapf = []
 yarl = []

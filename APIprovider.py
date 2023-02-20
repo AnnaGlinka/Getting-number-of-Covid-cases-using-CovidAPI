@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 import pprint
-from pydantic import ValidationError
 
 
 class APIError(Exception):
@@ -41,7 +40,7 @@ class CountryListProvider:
     def get_coutry_slug(self, country: str) -> str:
         if self.validate_input(country):
             return CountryListProvider.__country_dict[country]
-        raise ValidationError("This country is not in the list.")
+        raise ValueError("This country is not in the list.")
 
 
 class CovidCasesGenerator:
