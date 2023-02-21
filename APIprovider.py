@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 import pprint
 
-
 class APIError(Exception):
     
     def __init__(self, status):
@@ -12,35 +11,45 @@ class APIError(Exception):
         return f"APIError: status={self.status}"
 
 
-class CountryListProvider:
+class ReadDataFromAPI:
+
+    def __init__(self, endpoint):
+        self._APIurl = "https://api.covid19api.com" + endpoint
+        
+    def get_data(self):
+        _response = requests.get(self._APIurl)
+        if _response.status_code != 200:
+            raise APIError(_response.status_code)
+        return _response.json()
+
+
+class CountryListProvider(ReadDataFromAPI):
     """
     The class creates a list of countries with it's codes for which data regarding Covid19 
     cases are available in the API
     https://documenter.getpostman.com/view/10808728/SzS8rjbc#7934d316-f751-4914-9909-39f1901caeIb8
     """
+    
+    def __init__(self, endpoint):
+         super().__init__(endpoint)
 
-    __country_dict = {}
+    def create_countries_slugs_list(self, api_countries):
+        _country_list_with_slugs = {}
+        for _country_record in api_countries:
+            _country_list_with_slugs.update({_country_record['Country']: _country_record['Slug']})
+        return _country_list_with_slugs
+            
 
-    def __init__(self):
-        __endpoint = "https://api.covid19api.com/countries"
-        __response = requests.get(__endpoint)
+    def show_countries_list(self, api_countries):
+        for country_record in api_countries:
+            print(country_record['Country'])
+        
 
-        for country in __response.json():
-            self.__country_dict.update({country['Country']: country['Slug']})
-
-    def show_countries_list(self):
-        for country in CountryListProvider.__country_dict:
-            print(country)
-
-    def validate_input(self, input: str) -> bool:
-        if input in self.__country_dict:
-            return True
-        return False
-
-    def get_coutry_slug(self, country: str) -> str:
-        if self.validate_input(country):
-            return CountryListProvider.__country_dict[country]
+    def validate_input(self, input: str, countries_slugs: dict) -> str:
+        if input in countries_slugs:
+            return countries_slugs[input]
         raise ValueError("This country is not in the list.")
+
 
 
 class CovidCasesGenerator:
