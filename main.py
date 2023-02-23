@@ -8,7 +8,7 @@ import pprint
 
 country_list_provider = CountryListProvider("/countries")
 country_api_data = country_list_provider.get_data()
-#print(cuntry_api_data)
+print(country_api_data)
 country_list_provider.show_countries_list(country_api_data)
 
 country_slug_list = country_list_provider.create_countries_slugs_list(country_api_data)
